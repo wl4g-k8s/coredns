@@ -16,6 +16,7 @@ var Registry = &registry{m: map[string]FileSystem{}}
 func init() {
 	available = map[string]FileSystem{
 		"disk": Disk{},
+		"mem":  &Mem{},
 	}
 	Registry = &registry{m: map[string]FileSystem{
 		"/": Disk{},

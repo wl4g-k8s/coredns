@@ -20,6 +20,15 @@ mount `s3` (if implemented) under `/s3`; then a path used in any other plugin th
 `/s3` will use S3 storage underneath. This plugin may be used multiple times to register multiple
 paths using (different) "file system" implementations.
 
+Or use a longer syntax if the file system needs more options.
+
+~~~ corefile {
+. {
+    fs disk / {
+      //  option_1
+    }
+}
+
 ## Examples
 
 The following is the compiled in default:
