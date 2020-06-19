@@ -22,7 +22,8 @@ wire data of a DNS message.
 tls CERT KEY [CA]
 ~~~
 
-Parameter CA is optional. If not set, system CAs can be used to verify the client certificate
+Parameter CA is optional. If not set, system CAs can be used to verify the client certificate. The
+*tls* plugin uses the *fs* plugin to define the file system to read the data from.
 
 ~~~ txt
 tls CERT KEY [CA] {

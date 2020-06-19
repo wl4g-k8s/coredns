@@ -1,10 +1,11 @@
 package tls
 
 import (
+	"github.com/coredns/coredns/plugin/fs"
+
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"time"
@@ -65,9 +66,21 @@ func NewTLSConfigFromArgs(args ...string) (*tls.Config, error) {
 // Use for server TLS config or when using a client certificate
 // If caPath is empty, system CAs will be used
 func NewTLSConfig(certPath, keyPath, caPath string) (*tls.Config, error) {
-	cert, err := tls.LoadX509KeyPair(certPath, keyPath)
+	disk := fs.Registry.Lookup(certPath)
+	// copied from LoadX509KeyPair, so we can use our disk impl.
+	certPEMBlock, err := disk.ReadFile(certPath)
 	if err != nil {
-		return nil, fmt.Errorf("could not load TLS cert: %s", err)
+		return nil, err
+	}
+
+	disk = fs.Registry.Lookup(keyPath) // potentially diff. location
+	keyPEMBlock, err := disk.ReadFile(keyPath)
+	if err != nil {
+		return nil, err
+	}
+	cert, err := tls.X509KeyPair(certPEMBlock, keyPEMBlock)
+	if err != nil {
+		return nil, err
 	}
 
 	roots, err := loadRoots(caPath)
@@ -95,7 +108,8 @@ func loadRoots(caPath string) (*x509.CertPool, error) {
 	}
 
 	roots := x509.NewCertPool()
-	pem, err := ioutil.ReadFile(caPath)
+	disk := fs.Registry.Lookup(caPath)
+	pem, err := disk.ReadFile(caPath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading %s: %s", caPath, err)
 	}
