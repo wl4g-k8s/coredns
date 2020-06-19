@@ -2,7 +2,7 @@
 
 ## Name
 
-*fs* - provide a filesystem abstraction.
+*fs* - provide a file system abstraction.
 
 ## Description
 
@@ -22,11 +22,24 @@ paths using (different) "file system" implementations.
 
 ## Examples
 
+The following is the compiled in default:
+
 ~~~ corefile
 . {
     fs disk /
 }
 ~~~
+
+Here we have 2 mountpoints:
+
+~~~ txt
+. {
+    fs disk /
+    fs s3 /etc
+}
+~~~
+
+All accesses to /etc will use a s3 backed storage and everything else will go to disk (/).
 
 ## Notes
 
