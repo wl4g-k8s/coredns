@@ -15,10 +15,10 @@ var Registry = &registry{m: map[string]FileSystem{}}
 // needs to be a init() to be available during setup().
 func init() {
 	available = map[string]FileSystem{
-		"disk": Disk{},
+		"disk": &Disk{},
 	}
 	Registry = &registry{m: map[string]FileSystem{
-		"/": Disk{},
+		"/": &Disk{},
 	}}
 }
 
@@ -43,5 +43,5 @@ func (r *registry) Lookup(mountpoint string) FileSystem {
 		}
 	}
 
-	return Disk{}
+	return &Disk{}
 }

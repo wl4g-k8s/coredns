@@ -8,5 +8,6 @@ import (
 // In CoreDNS the interface is extended to have more methods that are need for its operation.
 type FileSystem interface {
 	http.FileSystem
-	ReadFile(filename string) ([]byte, error) // See ioutil.ReadFile.
+	ReadFile(filename string) ([]byte, error)    // See ioutil.ReadFile.
+	SetOption(name string, value []string) error // SetOption is used in the setup.
 }
