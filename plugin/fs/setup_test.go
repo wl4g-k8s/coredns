@@ -16,10 +16,11 @@ func TestSetupChaos(t *testing.T) {
 		{
 			`fs disk /`, false, &Disk{},
 		},
+
 		{
 			`fs disk / {
-				disk_ro
-			}`, false, &Disk{ro: true},
+				disk_ro boo
+			}`, true, &Disk{},
 		},
 	}
 
@@ -31,11 +32,6 @@ func TestSetupChaos(t *testing.T) {
 				t.Errorf("Test %d: Expected no error but found none for input %s. Error was: %v", i, test.input, err)
 				continue
 			}
-		}
-
-		if test.shouldErr {
-			t.Errorf("Test %d: Expected no error but found %s for input %s", i, err, test.input)
-			continue
 		}
 
 		ffs := Registry.Lookup("/")
