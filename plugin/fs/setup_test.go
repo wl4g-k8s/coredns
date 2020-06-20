@@ -1,6 +1,7 @@
 package fs
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/caddyserver/caddy"
@@ -37,5 +38,9 @@ func TestSetupChaos(t *testing.T) {
 			continue
 		}
 
+		ffs := Registry.Lookup("/")
+		if fmt.Sprintf("%T", ffs) != fmt.Sprintf("%T", test.expectedFS) {
+			t.Errorf("Test %d: Expected type %T, got %T", i, test.expectedFS, ffs)
+		}
 	}
 }

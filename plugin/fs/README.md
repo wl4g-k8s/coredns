@@ -60,9 +60,24 @@ Here we have 2 mountpoints:
 
 All accesses to /etc will use a s3 backed storage and everything else will go to disk (/).
 
-## Notes
+## Use in Plugins
+
+Using this plugin in other plugins is done by querying the registry and using the returned `FileSystem`
+implementation. `Lookup` will fallback on `disk` if no other file systems have been registered.
+
+~~~ go
+path := /my/path/to/a/file"
+
+disk := fs.Registry.Lookup(path)
+buf, err := disk.ReadFile(path)
+if err != nil {
+    return err
+}
+~~~
+
+The returned `FileSystem` will not be changed at run-time and may be cached by the plugin.
+
+### Notes on Specific Plugins
 
 The *tls* plugin (as all default plugins) uses the *fs* plugin for storage abstraction, except when
 finding the root CAs bundled by the OS. This is a std pkg library call which we can not intercept.
-
-## Use in Plugins
