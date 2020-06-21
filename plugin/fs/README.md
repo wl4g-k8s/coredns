@@ -66,13 +66,10 @@ Using this plugin in other plugins is done by querying the registry and using th
 implementation. `Lookup` will fallback on `disk` if no other file systems have been registered.
 
 ~~~ go
-path := /my/path/to/a/file"
+name := /my/path/to/a/file"
 
-disk := fs.Registry.Lookup(path)
-buf, err := disk.ReadFile(path)
-if err != nil {
-    return err
-}
+disk := fs.Registry.Lookup(name)
+buf, err := disk.ReadFile(name)
 ~~~
 
 The returned `FileSystem` will not be changed at run-time and may be cached by the plugin.
