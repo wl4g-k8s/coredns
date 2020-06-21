@@ -31,7 +31,7 @@ func setup(c *caddy.Controller) error {
 			if !strings.HasPrefix(opt, typ+"_") {
 				return fmt.Errorf("looking for %s_ options, found: %s", typ, opt)
 			}
-			if err := ffs.SetOption(opt, c.RemainingArgs()); err != nil {
+			if err := ffs.setOption(opt, c.RemainingArgs()); err != nil {
 				return err
 			}
 		}

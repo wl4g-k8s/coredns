@@ -18,7 +18,7 @@ func (d *Disk) Open(filename string) (http.File, error) { return os.Open(filenam
 // Open implements fs.FileSystem.
 func (d *Disk) ReadFile(filename string) ([]byte, error) { return ioutil.ReadFile(filename) }
 
-func (d *Disk) SetOption(opt string, value []string) error {
+func (d *Disk) setOption(opt string, value []string) error {
 	switch opt {
 	case "disk_ro":
 		if len(value) > 0 {
